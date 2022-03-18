@@ -1,0 +1,22 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.dao.ItripDao">
+   <select id="list" resultType="ItripHotel">
+       select * from itrip_hotel
+   </select>
+
+    <select id="list1" resultType="ItripHotel">
+
+SELECT aa.id,aa.hotelname,aa.address,bb.pmin,cc.tjl,cc.pj FROM itrip_hotel aa LEFT JOIN
+(
+SELECT hotelid,MIN(roomprice) pmin FROM  itrip_hotel_room  GROUP BY hotelid
+) bb ON aa.id=bb.hotelid
+LEFT JOIN
+(
+SELECT hotelid,ROUND(SUM(isok)/COUNT(hotelid),2) tjl,ROUND(AVG(score),1) pj FROM itrip_comment GROUP BY hotelid
+) cc ON aa.id=cc.hotelid
+
+
+    </select>
+</mapper>
